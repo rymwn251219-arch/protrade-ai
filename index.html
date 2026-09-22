@@ -39,7 +39,6 @@ body {
 ::-webkit-scrollbar-track { background: var(--bg-primary); }
 ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 3px; }
 
-/* TOPBAR */
 .topbar {
     position: fixed; top: 0; left: 0; right: 0;
     z-index: 1000;
@@ -84,7 +83,6 @@ body {
 
 .header-actions { display: flex; align-items: center; gap: 6px; flex-shrink: 0; flex-wrap: wrap; }
 
-/* BUTTONS IN HEADER */
 .ai-toggle-btn {
     position: relative;
     display: flex; align-items: center; gap: 6px;
@@ -103,11 +101,6 @@ body {
     box-shadow: 0 4px 15px rgba(16, 185, 129, 0.25);
 }
 .ai-toggle-btn.api-key-btn:hover { box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4); }
-.ai-toggle-btn.settings-btn-header {
-    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-    box-shadow: 0 4px 15px rgba(245, 158, 11, 0.25);
-}
-.ai-toggle-btn.settings-btn-header:hover { box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4); }
 .ai-toggle-btn .ai-pulse {
     position: absolute; top: -3px; right: -3px;
     width: 10px; height: 10px;
@@ -127,14 +120,12 @@ body {
     border-radius: 10px;
     color: var(--text-secondary);
     cursor: pointer; font-size: 1rem; transition: all 0.2s;
-    position: relative;
     flex-shrink: 0;
 }
 .icon-btn:hover { border-color: var(--accent-primary); color: var(--accent-primary); }
 .icon-btn.active { background: rgba(0, 212, 255, 0.1); color: var(--accent-primary); border-color: var(--accent-primary); }
 .icon-btn svg { width: 18px; height: 18px; }
 
-/* Conn status */
 .conn-status {
     display: flex; align-items: center; gap: 5px;
     padding: 0.35rem 0.7rem;
@@ -149,7 +140,6 @@ body {
 .conn-dot.online { background: var(--accent-success); box-shadow: 0 0 6px var(--accent-success); }
 .conn-dot.offline { background: var(--accent-danger); }
 
-/* Ticker */
 .ticker-bar {
     background: var(--bg-secondary);
     border-top: 1px solid var(--border-color);
@@ -158,22 +148,26 @@ body {
     position: relative;
 }
 
-.live-badge {
-    display: inline-flex; align-items: center; gap: 4px;
-    padding: 0.15rem 0.5rem;
+.badge-live {
     background: rgba(239, 68, 68, 0.15);
     color: var(--accent-danger);
-    border-radius: 10px;
-    font-size: 0.65rem; font-weight: 700;
-    margin-right: 6px;
+    border: 1px solid var(--accent-danger);
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 0.25rem 0.6rem;
+    border-radius: 15px;
+    font-size: 0.7rem; font-weight: 600;
+    white-space: nowrap;
 }
-.live-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent-danger); }
+.badge-live::before {
+    content: '';
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent-danger);
+}
 @media (prefers-reduced-motion: no-preference) {
-    .live-dot { animation: pulse 1.5s infinite; }
+    .badge-live::before { animation: pulse 1.5s infinite; }
 }
 @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-/* LAYOUT */
 .main-container { display: flex; margin-top: var(--topbar-h); min-height: calc(100vh - var(--topbar-h)); }
 .sidebar {
     width: 260px;
@@ -246,7 +240,6 @@ body {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* CARDS */
 .card {
     background: var(--bg-card);
     border: 1px solid var(--border-color);
@@ -268,21 +261,6 @@ body {
 }
 .badge-buy { background: rgba(16, 185, 129, 0.15); color: var(--accent-success); border: 1px solid var(--accent-success); }
 .badge-sell { background: rgba(239, 68, 68, 0.15); color: var(--accent-danger); border: 1px solid var(--accent-danger); }
-.badge-neutral { background: rgba(245, 158, 11, 0.15); color: var(--accent-warning); border: 1px solid var(--accent-warning); }
-.badge-live {
-    background: rgba(239, 68, 68, 0.15);
-    color: var(--accent-danger);
-    border: 1px solid var(--accent-danger);
-    display: inline-flex; align-items: center; gap: 4px;
-}
-.badge-live::before {
-    content: '';
-    width: 6px; height: 6px; border-radius: 50%;
-    background: var(--accent-danger);
-}
-@media (prefers-reduced-motion: no-preference) {
-    .badge-live::before { animation: pulse 1.5s infinite; }
-}
 
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
 .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
@@ -290,7 +268,113 @@ body {
 
 .chart-wrap { position: relative; height: 200px; width: 100%; }
 
-/* Signal Cards */
+/* ============ FULLSCREEN TRADINGVIEW CHART ============ */
+.chart-fullscreen-btn {
+    width: 34px; height: 34px;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: var(--bg-hover);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s;
+    padding: 0;
+}
+.chart-fullscreen-btn:hover {
+    border-color: var(--accent-primary);
+    color: var(--accent-primary);
+    transform: scale(1.05);
+}
+.chart-fullscreen-btn svg { width: 16px; height: 16px; }
+
+.tv-widget:fullscreen,
+.tv-widget:-webkit-full-screen {
+    width: 100vw !important;
+    height: 100vh !important;
+    max-width: none !important;
+    border-radius: 0 !important;
+    background: #0a0e17 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    z-index: 2147483646 !important;
+}
+.tv-widget:fullscreen .tradingview-widget-container,
+.tv-widget:-webkit-full-screen .tradingview-widget-container {
+    width: 100vw !important;
+    height: 100vh !important;
+}
+.tv-widget:fullscreen iframe,
+.tv-widget:-webkit-full-screen iframe {
+    width: 100vw !important;
+    height: 100vh !important;
+    border: none !important;
+    display: block !important;
+}
+
+.fs-exit-btn {
+    display: none;
+    position: fixed;
+    top: 15px; left: 15px;
+    z-index: 2147483647;
+    width: 44px; height: 44px;
+    background: rgba(239, 68, 68, 0.95);
+    border: 2px solid #fff;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.7);
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    font-family: inherit;
+}
+.fs-exit-btn:active { transform: scale(0.9); }
+.tv-widget:fullscreen .fs-exit-btn,
+.tv-widget:-webkit-full-screen .fs-exit-btn { display: flex; }
+
+.fs-rotate-hint {
+    display: none;
+    position: fixed;
+    bottom: 20px; left: 50%;
+    transform: translateX(-50%);
+    background: rgba(17, 24, 39, 0.95);
+    color: var(--accent-warning);
+    padding: 0.6rem 1.2rem;
+    border-radius: 25px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    z-index: 2147483647;
+    border: 1px solid rgba(245, 158, 11, 0.5);
+    white-space: nowrap;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+.tv-widget:fullscreen .fs-rotate-hint,
+.tv-widget:-webkit-full-screen .fs-rotate-hint { display: block; }
+
+/* ============ END FULLSCREEN ============ */
+
+/* TradingView widget containers */
+.tv-widget {
+    width: 100%;
+    height: 450px;
+    background: var(--bg-secondary);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+.tv-widget.tall { height: 550px; }
+.tv-widget.chart { height: 480px; }
+
+.tv-widget .tradingview-widget-container {
+    height: 100% !important;
+    width: 100% !important;
+}
+
 .signal-card {
     background: linear-gradient(145deg, var(--bg-card), var(--bg-hover));
     border: 1px solid var(--border-color);
@@ -320,7 +404,6 @@ body {
     font-size: 0.7rem; margin-top: 3px; color: var(--text-muted);
 }
 
-/* Strategy Cards */
 .strategy-card {
     background: var(--bg-card);
     border: 1px solid var(--border-color);
@@ -343,7 +426,6 @@ body {
     font-size: 0.65rem;
 }
 
-/* AI PANEL */
 .ai-panel {
     position: fixed;
     top: calc(var(--topbar-h) + 12px);
@@ -376,7 +458,6 @@ body {
     background: rgba(255,255,255,0.15); border: none; color: #fff;
     width: 28px; height: 28px; border-radius: 8px;
     cursor: pointer; font-size: 1.1rem; line-height: 1;
-    transition: background 0.2s;
 }
 .ai-close-btn:hover { background: rgba(255,255,255,0.3); }
 
@@ -494,7 +575,6 @@ body {
     30% { opacity: 1; transform: translateY(-3px); }
 }
 
-/* FORMS */
 .calc-input {
     width: 100%; padding: 0.7rem 0.9rem;
     background: var(--bg-hover);
@@ -528,7 +608,6 @@ body {
     text-align: center; min-height: 1em;
 }
 
-/* Buttons */
 .btn {
     padding: 0.6rem 1.2rem;
     border-radius: 8px;
@@ -545,7 +624,6 @@ body {
 .btn-sm { padding: 0.4rem 0.8rem; font-size: 0.75rem; }
 .btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-/* TABLE */
 .table-wrap { overflow-x: auto; }
 .data-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
 .data-table th {
@@ -563,7 +641,6 @@ body {
 }
 .data-table tr:hover td { background: rgba(0, 212, 255, 0.02); }
 
-/* NEWS */
 .news-item {
     display: flex; gap: 0.8rem;
     padding: 0.8rem;
@@ -580,19 +657,7 @@ body {
 }
 .impact-high { background: rgba(239, 68, 68, 0.15); color: var(--accent-danger); }
 .impact-medium { background: rgba(245, 158, 11, 0.15); color: var(--accent-warning); }
-.impact-low { background: rgba(16, 185, 129, 0.15); color: var(--accent-success); }
 
-/* TradingView widget containers */
-.tv-widget {
-    width: 100%; min-height: 400px;
-    background: var(--bg-secondary);
-    border-radius: 10px;
-    overflow: hidden;
-}
-.tv-widget.tall { min-height: 550px; }
-.tv-widget.chart { min-height: 480px; }
-
-/* TIMELINE */
 .timeline { position: relative; padding-right: 1.5rem; }
 .timeline::before {
     content: ''; position: absolute;
@@ -613,7 +678,6 @@ body {
 .timeline-title { font-size: 0.95rem; font-weight: 600; margin: 3px 0; }
 .timeline-desc { font-size: 0.75rem; color: var(--text-secondary); }
 
-/* PROGRESS RING */
 .progress-ring-container {
     display: flex; justify-content: center; align-items: center;
     gap: 1.5rem; flex-wrap: wrap;
@@ -626,7 +690,6 @@ body {
 .progress-ring-text { font-size: 1.3rem; font-weight: 700; margin-top: 0.3rem; }
 .progress-ring-label { font-size: 0.75rem; color: var(--text-muted); }
 
-/* AI ANALYSIS PANELS */
 .ai-analysis-panel {
     background: linear-gradient(145deg, rgba(0, 212, 255, 0.05), rgba(124, 58, 237, 0.05));
     border: 1px solid rgba(0, 212, 255, 0.15);
@@ -646,7 +709,6 @@ body {
 .ai-analysis-content { font-size: 0.9rem; line-height: 1.9; color: var(--text-secondary); }
 .ai-analysis-content strong { color: var(--accent-primary); }
 
-/* SETTINGS MODAL */
 .modal-backdrop {
     position: fixed; inset: 0;
     background: rgba(0, 0, 0, 0.75);
@@ -694,12 +756,8 @@ body {
     font-size: 0.75rem;
     direction: ltr; display: inline-block;
 }
-.modal-divider {
-    height: 1px; background: var(--border-color);
-    margin: 1.2rem 0;
-}
+.modal-divider { height: 1px; background: var(--border-color); margin: 1.2rem 0; }
 
-/* API TEST RESULT */
 .api-test-result {
     margin-top: 0.8rem;
     padding: 0.8rem 1rem;
@@ -736,19 +794,16 @@ body {
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* STATUS PILL */
 .status-pill {
     display: inline-flex; align-items: center; gap: 6px;
     padding: 0.4rem 0.8rem;
     border-radius: 20px;
-    font-size: 0.78rem;
-    font-weight: 600;
+    font-size: 0.78rem; font-weight: 600;
 }
 .status-pill.ok { background: rgba(16, 185, 129, 0.12); color: var(--accent-success); }
 .status-pill.warn { background: rgba(245, 158, 11, 0.12); color: var(--accent-warning); }
 .status-pill.err { background: rgba(239, 68, 68, 0.12); color: var(--accent-danger); }
 
-/* RESPONSIVE */
 @media (max-width: 1200px) {
     .sidebar { display: none; }
     .content { margin-right: 0; max-width: 100%; }
@@ -781,11 +836,12 @@ body {
     .logo-text { font-size: 1rem; }
     .logo-sub { display: none; }
     .logo-icon { width: 36px; height: 36px; font-size: 1.1rem; }
-    .tv-widget, .tv-widget.chart, .tv-widget.tall { min-height: 350px; }
+    .tv-widget { height: 380px; }
+    .tv-widget.chart { height: 400px; }
+    .tv-widget.tall { height: 480px; }
 }
 .mobile-menu-btn { display: none; }
 
-/* TOAST */
 .toast-container {
     position: fixed;
     top: calc(var(--topbar-h) + 15px);
@@ -838,7 +894,6 @@ body {
 <div class="toast-container" id="toast-container"></div>
 <div class="ai-backdrop" id="ai-backdrop" onclick="toggleAIChat(false)"></div>
 
-<!-- ===== SETTINGS MODAL ===== -->
 <div class="modal-backdrop" id="settings-modal">
     <div class="modal">
         <div class="modal-title">
@@ -846,7 +901,6 @@ body {
             <button class="modal-close" onclick="closeSettings()" aria-label="إغلاق">×</button>
         </div>
 
-        <!-- Connection status section -->
         <div class="modal-section">
             <div class="modal-desc">
                 <strong>📡 حالة البيانات الحية</strong><br>
@@ -860,7 +914,6 @@ body {
 
         <div class="modal-divider"></div>
 
-        <!-- API Key section -->
         <div class="modal-section">
             <div class="modal-desc">
                 <strong>🔑 مفتاح Twelve Data (اختياري)</strong><br>
@@ -879,28 +932,22 @@ body {
             </div>
 
             <div class="api-test-result" id="api-test-result"></div>
-
             <div id="api-status-pill" style="margin-top:0.8rem;"></div>
         </div>
 
         <div class="modal-divider"></div>
 
-        <!-- Info section -->
         <div class="modal-section">
             <div class="modal-desc">
                 <strong>ℹ️ ملاحظات مهمة</strong><br>
                 • مفتاحك يُحفظ في متصفحك فقط (localStorage) — لا يُرسل لأي جهة خارجية.<br>
                 • إذا فتحت الملف بـ <code>file://</code> قد لا تعمل بعض الميزات بسبب CORS.<br>
-                • الحل: ارفع الموقع على
-                <a href="https://app.netlify.com/drop" target="_blank" rel="noopener">Netlify Drop</a>
-                (مجاني في ثوانٍ).<br>
                 • 🛡️ لا تشارك مفتاحك مع أي شخص — إن انكشف، احذفه وأنشئ جديداً.
             </div>
         </div>
     </div>
 </div>
 
-<!-- ===== TOPBAR ===== -->
 <div class="topbar" id="topbar">
     <header class="header">
         <div class="logo">
@@ -929,7 +976,6 @@ body {
             <button class="icon-btn mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="القائمة">☰</button>
             <button class="icon-btn" id="sound-toggle" onclick="toggleSound()" aria-label="التنبيهات" title="تنبيهات صوتية">🔕</button>
 
-            <!-- ⭐ زر إعدادات بارز مع أيقونة SVG (يعمل على كل الأجهزة) -->
             <button class="icon-btn" onclick="openSettings()" aria-label="الإعدادات ومفتاح API" title="الإعدادات ومفتاح API">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="12" r="3"></circle>
@@ -937,14 +983,12 @@ body {
                 </svg>
             </button>
 
-            <!-- ⭐ زر مفتاح API الأخضر البارز -->
             <button class="ai-toggle-btn api-key-btn" id="api-key-btn" onclick="openSettings()" aria-label="مفتاح API">
                 <span style="font-size:1rem;">🔑</span>
                 <span class="btn-label">مفتاح API</span>
                 <span class="ai-pulse" id="api-pulse" style="display:none;"></span>
             </button>
 
-            <!-- زر المساعد AI -->
             <button class="ai-toggle-btn" id="ai-toggle" onclick="toggleAIChat()" aria-label="المساعد الذكي" aria-expanded="false">
                 <span class="ai-avatar">🤖</span>
                 <span class="btn-label">المساعد AI</span>
@@ -1008,7 +1052,6 @@ body {
     </aside>
 
     <main class="content">
-        <!-- Dashboard -->
         <div class="page active" id="dashboard">
             <div class="ai-analysis-panel">
                 <div class="ai-analysis-header">
@@ -1021,9 +1064,18 @@ body {
             <div class="card">
                 <div class="card-header">
                     <div class="card-title">📊 الشارت الاحترافي</div>
-                    <span class="badge badge-live">مباشر</span>
+                    <div style="display:flex;gap:6px;align-items:center;">
+                        <span class="badge badge-live">مباشر</span>
+                        <button class="chart-fullscreen-btn" onclick="openChartFullscreen(this)" title="ملء الشاشة" aria-label="ملء الشاشة">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
                 <div class="tv-widget chart">
+                    <button class="fs-exit-btn" onclick="exitChartFullscreen()" aria-label="خروج من ملء الشاشة">✕</button>
+                    <div class="fs-rotate-hint">↻ أدر الجوال أفقياً للحصول على أفضل عرض</div>
                     <div class="tradingview-widget-container" style="height:100%;">
                         <div class="tradingview-widget-container__widget"></div>
                         <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
@@ -1058,9 +1110,18 @@ body {
             <div class="card">
                 <div class="card-header">
                     <div class="card-title">🌍 نظرة عامة على السوق</div>
-                    <span class="badge badge-live">مباشر</span>
+                    <div style="display:flex;gap:6px;align-items:center;">
+                        <span class="badge badge-live">مباشر</span>
+                        <button class="chart-fullscreen-btn" onclick="openChartFullscreen(this)" title="ملء الشاشة" aria-label="ملء الشاشة">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
                 <div class="tv-widget">
+                    <button class="fs-exit-btn" onclick="exitChartFullscreen()" aria-label="خروج">✕</button>
+                    <div class="fs-rotate-hint">↻ أدر الجوال أفقياً</div>
                     <div class="tradingview-widget-container" style="height:100%;">
                         <div class="tradingview-widget-container__widget"></div>
                         <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-market-overview.js" async>
@@ -1129,7 +1190,6 @@ body {
             </div>
         </div>
 
-        <!-- Signals -->
         <div class="page" id="signals">
             <div class="card">
                 <div class="card-header">
@@ -1156,7 +1216,6 @@ body {
             </div>
         </div>
 
-        <!-- Strategies -->
         <div class="page" id="strategies">
             <div class="card">
                 <div class="card-header">
@@ -1206,7 +1265,6 @@ body {
             </div>
         </div>
 
-        <!-- Sessions -->
         <div class="page" id="sessions">
             <div class="grid-2">
                 <div class="card">
@@ -1247,7 +1305,6 @@ body {
             </div>
         </div>
 
-        <!-- Calculator -->
         <div class="page" id="calculator">
             <div class="grid-2">
                 <div class="card">
@@ -1324,17 +1381,22 @@ body {
             </div>
         </div>
 
-        <!-- News -->
         <div class="page" id="news">
             <div class="card">
                 <div class="card-header">
                     <div class="card-title">📰 أخبار السوق الحية</div>
-                    <span class="badge badge-live">مباشر</span>
-                </div>
-                <div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:0.8rem;">
-                    أخبار محدَّثة تلقائياً من TradingView
+                    <div style="display:flex;gap:6px;align-items:center;">
+                        <span class="badge badge-live">مباشر</span>
+                        <button class="chart-fullscreen-btn" onclick="openChartFullscreen(this)" title="ملء الشاشة" aria-label="ملء الشاشة">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
                 <div class="tv-widget tall">
+                    <button class="fs-exit-btn" onclick="exitChartFullscreen()" aria-label="خروج">✕</button>
+                    <div class="fs-rotate-hint">↻ أدر الجوال أفقياً</div>
                     <div class="tradingview-widget-container" style="height:100%;">
                         <div class="tradingview-widget-container__widget"></div>
                         <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-timeline.js" async>
@@ -1355,9 +1417,18 @@ body {
             <div class="card">
                 <div class="card-header">
                     <div class="card-title">📅 التقويم الاقتصادي</div>
-                    <span class="badge badge-live">مباشر</span>
+                    <div style="display:flex;gap:6px;align-items:center;">
+                        <span class="badge badge-live">مباشر</span>
+                        <button class="chart-fullscreen-btn" onclick="openChartFullscreen(this)" title="ملء الشاشة" aria-label="ملء الشاشة">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
                 <div class="tv-widget tall">
+                    <button class="fs-exit-btn" onclick="exitChartFullscreen()" aria-label="خروج">✕</button>
+                    <div class="fs-rotate-hint">↻ أدر الجوال أفقياً</div>
                     <div class="tradingview-widget-container" style="height:100%;">
                         <div class="tradingview-widget-container__widget"></div>
                         <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-events.js" async>
@@ -1383,7 +1454,6 @@ body {
             </div>
         </div>
 
-        <!-- AI Analysis -->
         <div class="page" id="ai-analysis">
             <div class="card">
                 <div class="card-header">
@@ -1418,7 +1488,6 @@ body {
     </main>
 </div>
 
-<!-- AI Panel -->
 <div class="ai-panel" id="ai-panel" role="dialog" aria-label="المساعد الذكي" aria-hidden="true">
     <div class="ai-chat-header">
         <div class="ai-chat-title">
@@ -1462,17 +1531,12 @@ body {
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script>
-/* =========================================================
-   ProTrade AI - Main Application Script
-   ========================================================= */
-
 const $ = (sel) => document.querySelector(sel);
 const $$ = (sel) => document.querySelectorAll(sel);
 const esc = (s) => String(s).replace(/[&<>"']/g,
     c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const pad2 = (n) => String(Math.floor(n)).padStart(2, '0');
 
-/* ============ DATA ============ */
 const signals = [
     { pair: 'EUR/USD', direction: 'buy', entry: 1.0845, target: 1.0900, stop: 1.0810, confidence: 78, timeframe: '1H', reason: 'ارتداد من EMA 50 + RSI 45' },
     { pair: 'GBP/USD', direction: 'sell', entry: 1.2750, target: 1.2680, stop: 1.2790, confidence: 72, timeframe: '4H', reason: 'كسر دعم 1.2750 + حجم عالي' },
@@ -1531,7 +1595,6 @@ const aiResponses = {
     'شكرا': 'على الرحب! أي سؤال آخر؟ 😊'
 };
 
-/* ============ STATE ============ */
 const state = {
     soundEnabled: false,
     attachedImage: null,
@@ -1540,7 +1603,6 @@ const state = {
     apiVerified: false
 };
 
-/* ============ HELPERS ============ */
 function showToast(title, msg, type = 'info', duration = 3500) {
     const container = $('#toast-container');
     if (!container) return;
@@ -1620,7 +1682,6 @@ function updateConnectionStatus() {
     }
 }
 
-/* ============ SESSIONS ============ */
 function getUTCHourFraction() {
     const d = new Date();
     return d.getUTCHours() + d.getUTCMinutes() / 60;
@@ -1650,7 +1711,6 @@ function renderSessionStatus() {
     }).join('');
 }
 
-/* ============ CHARTS ============ */
 function destroyChart(key) {
     if (state.charts[key]) { state.charts[key].destroy(); delete state.charts[key]; }
 }
@@ -1680,7 +1740,6 @@ function initCharts() {
     });
 }
 
-/* ============ SIGNALS ============ */
 function createSignalCard(s) {
     const dirIcon = s.direction === 'buy' ? '▲' : '▼';
     const dirText = s.direction === 'buy' ? 'شراء' : 'بيع';
@@ -1737,7 +1796,6 @@ function refreshSignals(btn) {
     }, 1200);
 }
 
-/* ============ STRATEGIES ============ */
 function renderStrategies() {
     const el = $('#strategy-list');
     if (!el) return;
@@ -1755,7 +1813,6 @@ function renderStrategies() {
     `).join('');
 }
 
-/* ============ BACKTEST ============ */
 function runBacktest() {
     const capital = parseFloat($('#test-capital').value) || 1000;
     const riskPct = (parseFloat($('#test-risk').value) || 1) / 100;
@@ -1815,7 +1872,6 @@ function runBacktest() {
     beep(totalProfit >= 0 ? 880 : 440, 150);
 }
 
-/* ============ SESSIONS PAGE ============ */
 function renderSessionTimeline() {
     const el = $('#session-timeline');
     if (!el) return;
@@ -1868,7 +1924,6 @@ function renderBestTimes() {
     `).join('');
 }
 
-/* ============ CALCULATORS ============ */
 function calcPositionSize() {
     const capital = parseFloat($('#calc-capital').value) || 100;
     const riskPct = parseFloat($('#calc-risk-pct').value) || 1;
@@ -1925,7 +1980,6 @@ function calcCompound() {
     });
 }
 
-/* ============ TODAY EVENTS ============ */
 function renderTodayEvents() {
     const el = $('#today-events');
     if (!el) return;
@@ -1944,7 +1998,6 @@ function renderTodayEvents() {
     `).join('');
 }
 
-/* ============ SENTIMENT ============ */
 function renderSentiment() {
     const el = $('#sentiment-analysis');
     if (!el) return;
@@ -1968,7 +2021,6 @@ function renderSentiment() {
     `).join('');
 }
 
-/* ============ MARKET BALANCE ============ */
 function renderMarketBalance() {
     const container = $('#market-balance');
     if (!container) return;
@@ -1992,7 +2044,6 @@ function renderMarketBalance() {
     }).join('');
 }
 
-/* ============ COUNTDOWN ============ */
 function updateCountdown() {
     const el = $('#next-event-countdown'), nameEl = $('#next-event-name');
     if (!el || !nameEl) return;
@@ -2013,7 +2064,6 @@ function updateCountdown() {
     }
 }
 
-/* ============ AI ANALYSIS ============ */
 function generateAIAnalysis() {
     const sumEl = $('#ai-market-summary');
     if (sumEl) sumEl.innerHTML = 'السوق يشهد تفاؤلاً محدوداً. الدولار يواجه ضغوطاً من توقعات خفض الفائدة. <strong>أفضل فرصة: XAU/USD (شراء) بثقة 85%.</strong>';
@@ -2025,7 +2075,6 @@ function generateAIAnalysis() {
     if (rec) rec.innerHTML = `<strong>1.</strong> ${esc(aiKnowledge['xau/usd'].recommendation)}<br><br><strong>2.</strong> ${esc(aiKnowledge['eur/usd'].recommendation)}<br><br><strong>3.</strong> ${esc(aiKnowledge['gbp/usd'].recommendation)}`;
 }
 
-/* ============ AI CHAT ============ */
 function addChatMessage(html, type = 'bot') {
     const body = $('#ai-chat-body');
     if (!body) return;
@@ -2133,7 +2182,6 @@ function toggleAIChat(force) {
     if (shouldOpen) setTimeout(() => $('#ai-chat-input-field').focus(), 350);
 }
 
-/* ============ SETTINGS & API KEY ============ */
 function openSettings() {
     $('#settings-modal').classList.add('visible');
     $('#api-key-input').value = state.apiKey || '';
@@ -2190,7 +2238,7 @@ function updateApiKeyPulse() {
 async function testApiKey() {
     const key = $('#api-key-input').value.trim();
     const result = $('#api-test-result');
-    
+
     if (!key) {
         result.className = 'api-test-result error visible';
         result.innerHTML = '❌ الرجاء إدخال المفتاح أولاً';
@@ -2204,44 +2252,33 @@ async function testApiKey() {
         const url = `https://api.twelvedata.com/price?symbol=EUR/USD&apikey=${encodeURIComponent(key)}`;
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 10000);
-        
+
         const res = await fetch(url, { signal: controller.signal });
         clearTimeout(timeoutId);
-        
-        if (!res.ok) {
-            throw new Error(`HTTP ${res.status}`);
-        }
-        
+
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
-        
-        // Check if API returned an error object
+
         if (data.code && data.status === 'error') {
-            // Common errors
-            if (data.code === 401) {
-                throw new Error('المفتاح غير صالح أو منتهي');
-            } else if (data.code === 429) {
-                throw new Error('تجاوزت الحد اليومي للطلبات');
-            } else {
-                throw new Error(data.message || 'خطأ غير معروف');
-            }
+            if (data.code === 401) throw new Error('المفتاح غير صالح أو منتهي');
+            else if (data.code === 429) throw new Error('تجاوزت الحد اليومي للطلبات');
+            else throw new Error(data.message || 'خطأ غير معروف');
         }
-        
+
         if (data.price) {
             state.apiVerified = true;
             state.apiKey = key;
             localStorage.setItem('td_api_key', key);
-            
+
             result.className = 'api-test-result success visible';
             result.innerHTML = `✅ <strong>الاتصال ناجح!</strong><br>
                 سعر EUR/USD حالياً: <strong>${data.price}</strong><br>
                 <small>سيُحدَّث تلقائياً كل 30 ثانية</small>`;
-            
+
             showToast('✅ المفتاح يعمل!', `EUR/USD: ${data.price}`, 'success');
             updateApiStatusPill();
             updateApiKeyPulse();
             beep(880, 100);
-            
-            // Start fetching live prices
             fetchLivePrices();
         } else {
             throw new Error('رد غير متوقع من الخدمة');
@@ -2249,32 +2286,31 @@ async function testApiKey() {
     } catch (err) {
         let msg = err.message;
         let hint = '';
-        
+
         if (err.name === 'AbortError') {
             msg = 'انتهت مدة الاتصال (10 ثواني)';
             hint = 'قد تكون المشكلة في الاتصال بالإنترنت';
         } else if (msg.includes('Failed to fetch') || msg.includes('NetworkError')) {
             msg = 'فشل الاتصال بالخدمة';
-            hint = window.location.protocol === 'file:' 
-                ? '⚠️ السبب: الملف مفتوح بـ file:// — المتصفح يحجب الطلبات. <br>الحل: انشر الموقع على <a href="https://app.netlify.com/drop" target="_blank" style="color:var(--accent-primary)">Netlify Drop</a>'
+            hint = window.location.protocol === 'file:'
+                ? '⚠️ السبب: الملف مفتوح بـ file:// — المتصفح يحجب الطلبات.'
                 : 'تحقق من اتصالك بالإنترنت';
         } else if (msg.includes('المفتاح غير صالح')) {
             hint = 'تأكد من نسخ المفتاح كاملاً من twelvedata.com';
         } else if (msg.includes('تجاوزت')) {
             hint = 'انتظر حتى الغد أو رقّي حسابك في Twelve Data';
         }
-        
+
         state.apiVerified = false;
         result.className = 'api-test-result error visible';
         result.innerHTML = `❌ <strong>فشل الاتصال</strong><br>${msg}${hint ? '<br><small style="color:var(--text-secondary);">' + hint + '</small>' : ''}`;
-        
+
         showToast('❌ فشل الاختبار', msg, 'danger');
         updateApiStatusPill();
         updateApiKeyPulse();
     }
 }
 
-/* ============ LIVE PRICES ============ */
 async function fetchLivePrices() {
     if (!state.apiKey) return;
     const livePairs = ['EUR/USD', 'GBP/USD', 'USD/JPY', 'XAU/USD', 'AUD/USD'];
@@ -2297,7 +2333,91 @@ async function fetchLivePrices() {
     }
 }
 
-/* ============ EXPORT ============ */
+/* ============ FULLSCREEN TRADINGVIEW CHART ============ */
+async function openChartFullscreen(btn) {
+    const card = btn.closest('.card');
+    const widget = card ? card.querySelector('.tv-widget') : null;
+    if (!widget) {
+        showToast('خطأ', 'لم يتم العثور على الشارت', 'danger');
+        return;
+    }
+
+    try {
+        if (widget.requestFullscreen) {
+            await widget.requestFullscreen();
+        } else if (widget.webkitRequestFullscreen) {
+            await widget.webkitRequestFullscreen();
+        } else if (widget.msRequestFullscreen) {
+            await widget.msRequestFullscreen();
+        } else {
+            showToast('غير مدعوم', 'متصفحك لا يدعم ملء الشاشة', 'warning');
+            return;
+        }
+
+        // Try to lock orientation to landscape after entering fullscreen
+        setTimeout(async () => {
+            try {
+                if (screen.orientation && screen.orientation.lock) {
+                    await screen.orientation.lock('landscape');
+                    showToast('✅ تم تفعيل الوضع الأفقي', 'الشارت يملأ الشاشة الآن', 'success', 2000);
+                } else {
+                    showToast('↻ أدر الجوال', 'أدر جوالك أفقياً يدوياً للحصول على أفضل عرض', 'info', 3000);
+                }
+            } catch (e) {
+                console.warn('Orientation lock failed:', e);
+                showToast('↻ أدر الجوال', 'أدر جوالك أفقياً يدوياً للحصول على أفضل عرض', 'info', 3000);
+            }
+        }, 400);
+
+        // Force resize after fullscreen
+        setTimeout(() => {
+            window.dispatchEvent(new Event('resize'));
+            Object.values(state.charts).forEach(c => { try { c.resize(); } catch (e) {} });
+        }, 600);
+
+    } catch (err) {
+        console.error('Fullscreen error:', err);
+        showToast('خطأ', 'لا يمكن تفعيل ملء الشاشة', 'danger');
+    }
+}
+
+function exitChartFullscreen() {
+    try {
+        if (screen.orientation && screen.orientation.unlock) {
+            try { screen.orientation.unlock(); } catch (e) {}
+        }
+
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+        }
+
+        setTimeout(() => {
+            window.dispatchEvent(new Event('resize'));
+            Object.values(state.charts).forEach(c => { try { c.resize(); } catch (e) {} });
+        }, 300);
+
+    } catch (err) {
+        console.error('Exit fullscreen error:', err);
+    }
+}
+
+// Listen for fullscreen changes (back button, ESC, etc.)
+['fullscreenchange', 'webkitfullscreenchange', 'msfullscreenchange'].forEach(evt => {
+    document.addEventListener(evt, () => {
+        const isFS = !!(document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement);
+        if (!isFS) {
+            if (screen.orientation && screen.orientation.unlock) {
+                try { screen.orientation.unlock(); } catch (e) {}
+            }
+            setTimeout(() => window.dispatchEvent(new Event('resize')), 200);
+        }
+    });
+});
+
 function exportSignals() {
     const data = { exportedAt: new Date().toISOString(), platform: 'ProTrade AI', signals: signals.map(s => ({ ...s })) };
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
@@ -2310,7 +2430,6 @@ function exportSignals() {
     beep(880, 100);
 }
 
-/* ============ KEYBOARD ============ */
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
         if ($('#ai-panel').classList.contains('open')) toggleAIChat(false);
@@ -2322,12 +2441,10 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-/* Close modal on backdrop click */
 document.addEventListener('click', (e) => {
     if (e.target.id === 'settings-modal') closeSettings();
 });
 
-/* ============ INIT ============ */
 function init() {
     syncTopbar();
     window.addEventListener('resize', syncTopbar);
@@ -2352,7 +2469,6 @@ function init() {
     updateCountdown();
     updateApiKeyPulse();
 
-    // If API key already saved
     if (state.apiKey) {
         showToast('مفتاح API محفوظ', 'اضغط 🔑 للتحقق منه', 'info', 3000);
         fetchLivePrices();
