@@ -887,6 +887,75 @@ body {
         transition-duration: 0.01ms !important;
     }
 }
+
+    
+/* ============ PLACEHOLDER BOXES ============ */
+.placeholder-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+    background: linear-gradient(145deg, rgba(0, 212, 255, 0.03), rgba(124, 58, 237, 0.03));
+    border: 2px dashed rgba(0, 212, 255, 0.25);
+    border-radius: 14px;
+    transition: all 0.3s;
+    min-height: 180px;
+}
+.placeholder-box:hover {
+    border-color: rgba(0, 212, 255, 0.5);
+}
+.placeholder-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.8rem;
+    opacity: 0.6;
+}
+.placeholder-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--accent-primary);
+    margin-bottom: 0.4rem;
+}
+.placeholder-desc {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 0.8rem;
+    max-width: 320px;
+}
+.placeholder-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0.3rem 0.8rem;
+    background: rgba(124, 58, 237, 0.15);
+    color: #a78bfa;
+    border: 1px solid rgba(124, 58, 237, 0.4);
+    border-radius: 15px;
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+.placeholder-badge::before {
+    content: '⚡';
+    font-size: 0.8rem;
+}
+.placeholder-box.compact {
+    padding: 1.5rem 1rem;
+    min-height: 120px;
+}
+.placeholder-box.compact .placeholder-icon {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+}
+.placeholder-box.compact .placeholder-title {
+    font-size: 0.95rem;
+}
+.placeholder-box.compact .placeholder-desc {
+    font-size: 0.75rem;
+    margin-bottom: 0.5rem;
+}
+
 </style>
 </head>
 <body>
