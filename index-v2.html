@@ -1922,7 +1922,10 @@ async function sendAIMessage() {
             const prompt = message || 'حلل هذا الشارت الفني بالتفصيل: الاتجاه، الأنماط، مستويات الدعم والمقاومة. أجب بالعربية.';
             response = await puter.ai.chat(prompt, imageData, { model: 'google/gemini-2.5-flash' });
         } else {
-            response = await puter.ai.chat(message, { model: 'google/gemini-2.5-flash' });
+            const contextMsg = `[أنت "ProTrade AI" — مساعد متداول محترف. تخصصك الوحيد: التداول والأسواق المالية. أجب دائماً من منظور التداول حتى لو لم يذكر المستخدم ذلك. إذا كان السؤال لا علاقة له بالتداول، اعتذر بلطف واقترح سؤالاً تداولياً.]
+
+سؤال المستخدم: ${message}`;
+                response = await puter.ai.chat(contextMsg, { model: 'google/gemini-2.5-flash' });
         }
         if (typing) typing.remove();
 
